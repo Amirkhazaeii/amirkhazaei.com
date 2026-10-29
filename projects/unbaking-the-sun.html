@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unbaking the Sun · Amir Khazaei</title>
+  <meta name="description" content="Recovering the capture-time sun from photogrammetric city meshes and removing baked-in shadows so the city can be relit.">
+  <meta property="og:image" content="https://amirkhazaei.com/assets/img/unbake_recovered.jpg">
+  <meta name="theme-color" content="#0c0912">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="../">amir<span>.</span>khazaei</a>
+    <ul>
+      <li class="hide-sm"><a href="../#about">About</a></li>
+      <li><a href="../#research" aria-current="page">Research</a></li>
+      <li><a href="../#publications">Publications</a></li>
+      <li class="hide-sm"><a href="../#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <a class="back" href="../#research">← All projects</a>
+    <p class="eyebrow">Inverse rendering · 2026 · Ongoing</p>
+    <h1>Unbaking<br><span class="grad-text">the Sun</span></h1>
+    <p class="lede">Photorealistic 3D city scans are frozen at one moment: the sun of the day they were captured is painted into every texture. This project works out where that sun was, using only the mesh and the texture, and then removes its shadows so the city can be lit by any sun you choose.</p>
+    <div class="stat-row">
+      <div class="stat"><b>0.07°</b><span>mean sun error, clean geometry</span></div>
+      <div class="stat"><b>&lt; 0.5°</b><span>with 1 m vertex noise</span></div>
+      <div class="stat"><b>~1,500</b><span>candidate suns searched</span></div>
+      <div class="stat"><b>~1 min</b><span>per tile on a laptop CPU</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap two-col">
+    <div class="reveal">
+      <div class="compare" style="--pos:50%">
+        <img src="../assets/img/unbake_baked.jpg" alt="Baked texture of a synthetic city seen from above, with dark shadows">
+        <img class="top" src="../assets/img/unbake_recovered.jpg" alt="The same city with the cast shadows recovered from texture and geometry shown in red">
+        <span class="lbl l">Recovered shadow</span>
+        <span class="lbl r">Baked texture</span>
+        <div class="bar"></div>
+        <div class="knob" aria-hidden="true">⇆</div>
+        <input type="range" min="0" max="100" value="50" aria-label="Drag to compare the baked texture with the recovered shadow mask">
+      </div>
+      <p class="cam-caption">Drag to compare. Right: the baked aerial texture. Left: cast shadows predicted from the recovered sun (135.0°, 48.0°), which match the ground truth exactly.</p>
+    </div>
+    <div class="prose reveal">
+      <h3 style="margin-top:0">The problem</h3>
+      <p>Google's Photorealistic 3D Tiles and similar photogrammetric meshes are now everywhere in simulation, games and digital twins. But their textures are photographs, so every building carries the shadow it cast on capture day. Put a new sun in the scene and you get two sets of shadows that disagree.</p>
+      <h3>The approach</h3>
+      <p>For every texel of every texture atlas, I rasterise its 3D position and surface normal. For each candidate sun direction, I ray-cast the whole scene to find which texels would be in shadow, and score how well that explains the texture with two tests:</p>
+      <ul>
+        <li><b>Fit:</b> how much of the texture's brightness a simple sun-plus-sky lighting model explains.</li>
+        <li><b>Edges:</b> whether brightness edges in the texture line up with predicted shadow edges. Paint edges appear only in the texture; shadow edges appear in both.</li>
+      </ul>
+      <p>A coarse-to-fine search (5° → 1° → 0.25°) over about 1,500 directions and 120k rays each finds the sun. The pipeline then exports per-texel shadow masks, shading and ambient occlusion that condition a learned de-shadowing model.</p>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <figure class="figure reveal">
+      <img src="../assets/img/unbake_panel.jpg" alt="Three panels: the original texture atlas with baked sun, the computed shadow matte, and the unbaked texture" loading="lazy">
+      <figcaption>Texture atlas from a synthetic city tile: as captured with baked sun (left), computed shadow matte (centre), and the geometry-only unbaked result (right).</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap two-col">
+    <figure class="figure reveal">
+      <img src="../assets/img/unbake_scoremap.jpg" alt="Heat map of the sun-search score over azimuth and elevation with a sharp peak at the true sun" loading="lazy">
+      <figcaption>Search score over every candidate (azimuth, elevation). The edge test gives a sharp peak at the true sun.</figcaption>
+    </figure>
+    <div class="prose reveal">
+      <h3 style="margin-top:0">What the validation shows</h3>
+      <p>On five procedural cities with known suns, run through the same GLB round trip as real tiles:</p>
+      <ul>
+        <li>Clean geometry: mean error 0.07°, maximum 0.25°.</li>
+        <li>Vertices jittered by up to 1 m: still under 0.5°.</li>
+        <li>Rounded, blobby edges like real reconstructions: azimuth within about 5°, elevation biased about 8° low. Softened buildings cast shorter shadows, so the search lowers the sun to compensate. That mismatch is exactly what the learned model has to absorb.</li>
+      </ul>
+      <h3>Next</h3>
+      <p>Paired synthetic training data from Blender, a conditioned de-shadowing network, and writing the results back into 3D Tiles for Cesium for Unreal. The first real-world test is the Texas A&amp;M campus.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© <span data-year>2026</span> Amir Khazaei</span>
+    <a href="../">amirkhazaei.com</a>
+  </div>
+</footer>
+
+<script src="../assets/main.js"></script>
+</body>
+</html>

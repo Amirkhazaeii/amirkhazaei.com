@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amir Khazaei</title>
+  <meta name="description" content="Amir Khazaei: research on graphics, computer vision and physics-based simulation for digital twins at Texas A&M University.">
+  <meta property="og:title" content="Amir Khazaei">
+  <meta property="og:description" content="Graphics, vision and physics-based simulation for digital twins.">
+  <meta property="og:image" content="https://amirkhazaei.com/assets/img/thermal_noon.jpg">
+  <meta property="og:url" content="https://amirkhazaei.com/">
+  <meta name="theme-color" content="#0c0912">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top">amir<span>.</span>khazaei</a>
+    <ul>
+      <li class="hide-sm"><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li class="hide-sm"><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Researcher · Texas A&amp;M University</p>
+      <h1>Amir<br><span class="grad-text">Khazaei</span></h1>
+      <p class="lede">I build <strong>physically grounded digital twins</strong>: undoing the sunlight baked into 3D city scans, and simulating what a thermal camera would really see.</p>
+      <div class="cta">
+        <a class="btn primary" href="#research">See my research</a>
+        <a class="btn" href="#contact">Get in touch</a>
+        <!-- EDIT: once assets/cv.pdf exists, add: <a class="btn" href="assets/cv.pdf">Download CV</a> -->
+      </div>
+    </div>
+
+    <figure class="figure">
+      <div class="thermal-cam" data-timelapse role="img" aria-label="Simulated thermal camera time-lapse of a small scene over 24 hours">
+        <img src="assets/img/thermal_08h.jpg" data-time="08:08 · sun +18°" alt="">
+        <img src="assets/img/thermal_11h.jpg" data-time="11:03 · sun +55°" alt="">
+        <img src="assets/img/thermal_12h.jpg" data-time="12:00 · sun +68°" alt="">
+        <img src="assets/img/thermal_16h.jpg" data-time="16:05 · sun +55°" alt="">
+        <img src="assets/img/thermal_20h.jpg" data-time="20:02 · sun +5°" alt="">
+        <img src="assets/img/thermal_23h.jpg" data-time="23:05 · sun −27°" alt="">
+        <img src="assets/img/thermal_02h.jpg" data-time="02:07 · sun −37°" alt="">
+        <img src="assets/img/thermal_05h.jpg" data-time="05:07 · sun −17°" alt="">
+        <div class="cam-scale" aria-hidden="true"></div>
+        <div class="cam-hud" aria-hidden="true">
+          <span class="rec">LWIR</span>
+          <span data-clock>08:08</span>
+        </div>
+      </div>
+      <figcaption class="cam-caption">ThermalIR: a simulated FLIR Boson 640 watching one scene for 24 hours. Every pixel is a temperature, not a filter.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<section id="about" class="alt">
+  <div class="wrap about reveal">
+    <div>
+      <p class="eyebrow">About</p>
+      <h2>Hi, I'm Amir.</h2>
+    </div>
+    <div>
+      <!-- EDIT: rewrite this bio in your own words (degree, department, advisor, lab). -->
+      <p class="big">I work where computer graphics, computer vision and physics meet, building tools that make 3D digital twins of real places behave like the real world.</p>
+      <p>My current projects take photorealistic city meshes, estimate the sun that was baked into their textures, and remove it so the scene can be relit. I also build a radiometric thermal-camera simulator for Unreal Engine that computes temperatures from heat transfer instead of painting them on.</p>
+      <div class="interests" aria-label="Research interests">
+        <span class="chip">Inverse rendering</span>
+        <span class="chip">Digital twins</span>
+        <span class="chip">Thermal imaging</span>
+        <span class="chip">3D Tiles &amp; photogrammetry</span>
+        <span class="chip">Unreal Engine</span>
+        <span class="chip">Physics-based simulation</span>
+      </div>
+      <ul class="facts">
+        <li><b>University</b><span>Texas A&amp;M University</span></li>
+        <!-- EDIT: add your program, e.g. <li><b>Program</b><span>Ph.D., Computer Science</span></li> -->
+        <li><b>Based in</b><span>College Station, Texas</span></li>
+        <li><b>Email</b><span><a href="mailto:amirkhazaei@tamu.edu">amirkhazaei@tamu.edu</a></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">Research</p>
+        <h2>Selected projects</h2>
+      </div>
+    </div>
+
+    <div class="projects">
+      <a class="project reveal" href="projects/unbaking-the-sun.html">
+        <div class="project-media">
+          <img src="assets/img/unbake_recovered.jpg" alt="Aerial view of a synthetic city with recovered cast shadows highlighted in red" loading="lazy">
+        </div>
+        <div class="project-body">
+          <p class="eyebrow">2026 · Inverse rendering</p>
+          <h3>Unbaking the Sun</h3>
+          <p>Photogrammetric city meshes such as Google's Photorealistic 3D Tiles come with the capture-day sunlight frozen into their textures. I recover that sun from the texture and geometry alone, then strip the baked shadows so the city can be relit at any time of day.</p>
+          <ul class="tags"><li>Python</li><li>Open3D / Embree</li><li>Numba</li><li>3D Tiles</li><li>Cesium for Unreal</li></ul>
+          <div class="stats">
+            <div class="stat"><b>0.07°</b><span>mean sun-direction error</span></div>
+            <div class="stat"><b>~1 min</b><span>per tile, CPU only</span></div>
+          </div>
+          <span class="more">Read more</span>
+        </div>
+      </a>
+
+      <a class="project reveal" href="projects/thermal-ir.html">
+        <div class="project-media">
+          <img src="assets/img/thermal_noon.jpg" alt="Simulated thermal infrared image of buildings, a tree and test targets at noon" loading="lazy">
+        </div>
+        <div class="project-body">
+          <p class="eyebrow">2026 · Simulation</p>
+          <h3>ThermalIR</h3>
+          <p>A radiometric LWIR/MWIR camera for Unreal Engine 5. It solves transient heat conduction driven by sun, sky, air and wind, renders the band radiance a real sensor would receive, and runs it through a full detector model: optics, microbolometer, noise and AGC.</p>
+          <ul class="tags"><li>C++17</li><li>HLSL</li><li>Unreal Engine 5</li><li>Radiometry</li></ul>
+          <div class="stats">
+            <div class="stat"><b>136</b><span>physics validation checks</span></div>
+            <div class="stat"><b>0.082 K</b><span>blackbody error, Boson model</span></div>
+          </div>
+          <span class="more">Read more</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="publications" class="alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">Publications &amp; software</p>
+        <h2>Writing &amp; code</h2>
+      </div>
+    </div>
+    <ul class="pubs reveal">
+      <!--
+        EDIT: add papers here. Copy this block for each one:
+        <li class="pub">
+          <span class="year">2026</span>
+          <div>
+            <p class="title">Paper title</p>
+            <p class="meta"><b>A. Khazaei</b>, Co-author, Co-author · Venue 2026</p>
+          </div>
+          <div class="links"><a class="pill" href="paper.pdf">PDF</a><a class="pill" href="https://arxiv.org/abs/...">arXiv</a></div>
+        </li>
+      -->
+      <li class="pub">
+        <span class="year">2026</span>
+        <div>
+          <p class="title">Unbaking the Sun: geometry-aware sun recovery and shadow removal for photogrammetric city meshes</p>
+          <p class="meta">Research software · Ongoing</p>
+        </div>
+        <div class="links"><a class="pill" href="projects/unbaking-the-sun.html">Project</a><span class="pill status">In progress</span></div>
+      </li>
+      <li class="pub">
+        <span class="year">2026</span>
+        <div>
+          <p class="title">ThermalIR: a physics-based thermal infrared camera for Unreal Engine</p>
+          <p class="meta">Research software · Ongoing</p>
+        </div>
+        <div class="links"><a class="pill" href="projects/thermal-ir.html">Project</a><span class="pill status">In progress</span></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- EDIT: CV section hidden until you add your details and assets/cv.pdf.
+<section id="cv">
+  <div class="wrap">
+    <div class="cv-card reveal">
+      <div>
+        <p class="eyebrow">Curriculum vitae</p>
+        <h2>The short version.</h2>
+        <p>The full CV has education, experience, skills and awards.</p>
+        <div class="cta" style="margin-top:26px">
+          <a class="btn primary" href="assets/cv.pdf">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>
+            Download CV (PDF)
+          </a>
+        </div>
+      </div>
+      <! - EDIT: replace with your real education and experience. - >
+      <ul class="timeline">
+        <li><b>Texas A&amp;M University</b><span>Your degree · Year – present</span></li>
+        <li><b>Previous university</b><span>Your degree · Year – Year</span></li>
+        <li><b>Experience or award</b><span>Role · Year</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+-->
+
+<section class="contact alt" id="contact">
+  <div class="wrap reveal">
+    <p class="eyebrow">Contact</p>
+    <h2>Let's <span class="grad-text">talk.</span></h2>
+    <p>I'm happy to hear about research collaborations, internships, or anything to do with digital twins and simulation.</p>
+    <div class="cta">
+      <a class="btn primary" href="mailto:amirkhazaei@tamu.edu">amirkhazaei@tamu.edu</a>
+      <!-- EDIT: uncomment and fill in the links you want to show.
+      <a class="btn" href="https://github.com/YOUR-USERNAME">GitHub</a>
+      <a class="btn" href="https://www.linkedin.com/in/YOUR-PROFILE">LinkedIn</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=YOUR-ID">Google Scholar</a>
+      -->
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© <span data-year>2026</span> Amir Khazaei</span>
+    <span>College Station, Texas</span>
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
