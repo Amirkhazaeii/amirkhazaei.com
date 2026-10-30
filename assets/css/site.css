@@ -322,6 +322,8 @@ footer .links { display: flex; gap: 22px; }
   .pub .pthumb { max-width: 100%; }
   .search { width: 100%; }
   .home-intro p { font-size: 14px; }
+  .home-intro h1 br { display: none; }
+  .scroll-cue { display: none; }
   .filters { display: none; }
 }
 @media (max-width: 440px) {
