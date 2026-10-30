@@ -1,4 +1,4 @@
-import { initHome } from "./bubbles.js";
+import { initHome } from "./voronoi.js";
 import { loadSite, projectUrl, asset, esc, statusLabel, byRecent, navOnScroll, reveal, footer, pubRow, researchItems } from "./data.js";
 
 navOnScroll();
