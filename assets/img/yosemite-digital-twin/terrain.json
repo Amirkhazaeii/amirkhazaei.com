@@ -1,0 +1,8 @@
+{
+  "size_m": 10000.0,
+  "min_m": 1205.62,
+  "max_m": 3021.59,
+  "photo": "assets/img/yosemite-digital-twin/terrain_photo.jpg",
+  "label": "Half Dome, Tenaya Canyon and Clouds Rest",
+  "source": "USGS 3DEP 2019 Yosemite LiDAR, resampled from the digital twin's own 5 m terrain grids (LiDAR mesh tiles + USGS 1 m DEM fill tiles); photo USDA NAIP, Aug 2022 (public domain)"
+}

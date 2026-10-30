@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-base="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>About · Amir Khazaei</title>
+  <meta name="description" content="Amir Khazaei is a PhD student in Visual Computing & Interactive Media at Texas A&M University.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<nav class="nav always" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="./">Amir Khazaei</a>
+    <ul>
+      <li class="opt"><a href="./#research">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="about.html" aria-current="page">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <header class="page-head">
+    <div class="wrap">
+      <p class="kicker">About</p>
+      <h1>Amir Khazaei</h1>
+      <p class="lead">PhD student in <strong>Visual Computing &amp; Interactive Media</strong> at <strong>Texas A&amp;M University</strong>.</p>
+    </div>
+  </header>
+
+  <section class="wrap about-grid" style="padding-top:40px">
+    <div class="reveal">
+      <ul class="facts">
+        <li><b>Program</b><span>PhD, Visual Computing &amp; Interactive Media</span></li>
+        <li><b>University</b><span>Texas A&amp;M University</span></li>
+        <li><b>Location</b><span>College Station, Texas</span></li>
+        <li><b>Focus</b><span>Digital twins · Interactive systems · Physical AI</span></li>
+        <li><b>Email</b><span><a href="mailto:amirkhazaei@tamu.edu">amirkhazaei@tamu.edu</a></span></li>
+        <!-- EDIT: add rows, e.g. <li><b>Advisor</b><span>Name</span></li>, <li><b>Lab</b><span>Name</span></li> -->
+      </ul>
+      <div class="p-links" style="margin-top:28px">
+        <a class="btn fill" href="mailto:amirkhazaei@tamu.edu">Get in touch</a>
+        <a class="btn" href="https://github.com/Amirkhazaeii">GitHub</a>
+        <!-- EDIT: once you add assets/cv.pdf: <a class="btn" href="assets/cv.pdf">CV</a>
+             LinkedIn / Google Scholar: <a class="btn" href="https://scholar.google.com/citations?user=ID">Scholar</a> -->
+      </div>
+    </div>
+    <div class="prose reveal">
+      <!-- EDIT: rewrite in your own words. -->
+      <p class="lead" style="color:var(--text);margin-bottom:24px">I build virtual worlds that behave like real ones, and use them to understand places, machines and the people who work with them.</p>
+      <p>My research sits between computer graphics, simulation and AI. I make digital twins of real environments, from national parks to industrial plants, and build interactive systems that let people explore and question them.</p>
+      <p>A growing part of my work is physical AI: training and evaluating robots in physically grounded simulation before they touch the real world. Across projects, the common thread is fidelity. A twin is only useful if its light, physics and behaviour can be trusted.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span class="year">2026</span> Amir Khazaei · Texas A&amp;M University</span>
+    <span class="links"><a href="./">Home</a><a href="publications.html">Publications</a><a href="mailto:amirkhazaei@tamu.edu">Email</a></span>
+  </div>
+</footer>
+
+<script type="module">
+  import { navOnScroll, reveal, footer } from "./assets/js/data.js";
+  navOnScroll(); reveal(); footer();
+</script>
+</body>
+</html>

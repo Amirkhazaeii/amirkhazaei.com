@@ -1,0 +1,420 @@
+{
+  "profile": {
+    "name": "Amir Khazaei",
+    "title": "PhD Student, Visual Computing & Interactive Media",
+    "university": "Texas A&M University",
+    "email": "amirkhazaei@tamu.edu",
+    "github": "https://github.com/Amirkhazaeii",
+    "authorNames": [
+      "Amir Hossein Khazaei",
+      "Amir Khazaei"
+    ]
+  },
+  "projects": [
+    {
+      "slug": "unbaking-the-sun",
+      "title": "Unbaking the Sun",
+      "short": "Unbaking the Sun",
+      "tagline": "Recovering the sun baked into photorealistic 3D city scans, and removing its shadows so the city can be relit.",
+      "theme": "Digital twins",
+      "status": "ongoing",
+      "year": 2026,
+      "weight": 1.2,
+      "scene": "sun",
+      "cover": "assets/img/unbaking-the-sun/cover.jpg",
+      "tags": [
+        "Inverse rendering",
+        "3D Tiles",
+        "Python",
+        "Open3D / Embree",
+        "Numba",
+        "Cesium for Unreal"
+      ],
+      "summary": "Photogrammetric city meshes such as Google's Photorealistic 3D Tiles are frozen at one moment: the sun of capture day is painted into every texture. This project works out where that sun was <strong>from the mesh and texture alone</strong>, then removes its shadows so the city can be lit by any sun you choose.",
+      "stats": [
+        {
+          "value": "0.07°",
+          "label": "mean sun-direction error on clean synthetic cities"
+        },
+        {
+          "value": "< 0.5°",
+          "label": "error with up to 1 m of vertex noise"
+        },
+        {
+          "value": "~1,500",
+          "label": "candidate sun directions searched per tile"
+        },
+        {
+          "value": "~1 min",
+          "label": "per tile on a laptop CPU, no GPU needed"
+        }
+      ],
+      "sections": [
+        {
+          "heading": "The problem",
+          "body": [
+            "Photorealistic 3D city scans are now everywhere in simulation, games and digital twins. Their textures are photographs, so every building carries the shadow it cast on capture day.",
+            "Put a new sun in the scene and you get two sets of shadows that disagree. Try it in the scene above: switch between <strong>Baked</strong> and <strong>Unbaked</strong> while the sun moves."
+          ],
+          "image": "assets/img/unbaking-the-sun/validation.jpg",
+          "caption": "Baked aerial texture (left), ground-truth cast shadow (centre), and the shadow predicted from the recovered sun at 135.0°, 48.0° (right)."
+        },
+        {
+          "heading": "Finding the sun",
+          "body": [
+            "For every texel of every texture atlas, the pipeline rasterises its 3D position and surface normal. For each candidate sun direction it ray-casts the whole scene to find which texels would be in shadow, then scores how well that explains the texture.",
+            "<strong>Fit</strong> measures how much of the texture's brightness a simple sun-plus-sky model explains. <strong>Edges</strong> checks whether brightness edges in the texture line up with predicted shadow edges: paint edges appear only in the texture, shadow edges in both. A coarse-to-fine search (5° → 1° → 0.25°) finds the peak."
+          ],
+          "image": "assets/img/unbaking-the-sun/scoremap.jpg",
+          "caption": "Search score over every candidate azimuth and elevation. The edge test gives a sharp peak at the true sun."
+        },
+        {
+          "heading": "Removing the shadows",
+          "layout": "wide",
+          "body": [
+            "With the sun known, the pipeline exports per-texel shadow masks, shading and ambient occlusion for every atlas. These give a geometry-only de-shadowed baseline today and condition a learned de-shadowing model next."
+          ],
+          "image": "assets/img/unbaking-the-sun/panel.jpg",
+          "caption": "A synthetic tile's texture atlas: as captured with the baked sun, the computed shadow matte, and the unbaked result."
+        },
+        {
+          "heading": "What validation shows",
+          "body": [
+            "<ul><li>Clean geometry, five cities and five suns: mean error 0.07°, maximum 0.25°.</li><li>Vertices jittered by up to 1 m: still under 0.5°.</li><li>Rounded, blobby edges like real reconstructions: azimuth within about 5°, elevation biased about 8° low. Softened buildings cast shorter shadows, so the search lowers the sun to compensate. That mismatch is what the learned model has to absorb.</li></ul>",
+            "Next: paired synthetic training data, a conditioned de-shadowing network, and writing results back into 3D Tiles for Cesium for Unreal, starting with the Texas A&amp;M campus."
+          ],
+          "image": "assets/img/unbaking-the-sun/aerial.jpg",
+          "caption": "Aerial render of a synthetic city with the geometric cast-shadow mask in red."
+        }
+      ],
+      "links": []
+    },
+    {
+      "slug": "cold-rolling-digital-twin",
+      "title": "Cold-Rolling Mill Digital Twin",
+      "short": "Cold-rolling twin",
+      "tagline": "A digital twin that shows the hidden pressure inside a rolling mill, live, on the metal itself.",
+      "theme": "Digital twins",
+      "status": "ongoing",
+      "year": 2026,
+      "period": "Sep 2026 – present",
+      "role": "Course project, VIZA 679",
+      "credits": "Faculty advisor / PI: Dr. Jian Tao",
+      "weight": 1.2,
+      "scene": "rollers",
+      "cover": "assets/img/cold-rolling-digital-twin/cover.jpg",
+      "heroImage": "assets/img/cold-rolling-digital-twin/hero.jpg",
+      "tags": [
+        "NVIDIA Isaac Sim",
+        "PhysX 5",
+        "UR10e robots",
+        "Roll-gap modeling",
+        "Heat-map visualization",
+        "Web dashboard",
+        "Hand tracking"
+      ],
+      "summary": "A physics-based digital twin of a robotic cold-rolling cell, built in NVIDIA Isaac Sim. Two UR10e arms feed an aluminum plate through a 3-D model of the lab's two-high mill. A roll-gap model computes the contact pressure and shows it as a <strong>live heat map</strong> in three places: in the gap, on a board above the mill, and painted onto the metal.",
+      "stats": [
+        {
+          "value": "246 MPa",
+          "label": "Peak roll pressure, pass 3"
+        },
+        {
+          "value": "6.0 → 3.6 mm",
+          "label": "Three passes, AA6061-O plate"
+        },
+        {
+          "value": "183 s",
+          "label": "Full schedule, simulated, no collisions"
+        },
+        {
+          "value": "968",
+          "label": "Single-robot placements searched; none could serve both sides collision-free"
+        }
+      ],
+      "sections": [
+        {
+          "heading": "Pressure no camera can see",
+          "body": [
+            "Cold rolling squeezes metal between two steel rolls. The pressure that does the work acts on an arc only <strong>6–8 mm</strong> long, hidden between the rolls. No camera or sensor can see it.",
+            "The twin computes that pressure at every step and draws it where it acts. In the white view every object turns translucent, the chock above the rolls is cut away, and only the metal stays solid, carrying its live heat map."
+          ],
+          "image": "assets/img/cold-rolling-digital-twin/gap.jpg",
+          "caption": "White view, pass 1. The plate enters the roll gap, and the part under the rolls shows its live contact pressure through the ghosted machine."
+        },
+        {
+          "heading": "Physics plus a process model",
+          "body": [
+            "PhysX runs at <strong>240 Hz</strong> and handles everything rigid: the arms, the grippers, the powered roller tables, the sheet, and the wrist and finger-pad forces. But a rigid-body engine cannot deform metal.",
+            "At the bite, a roll-gap model takes over. It combines Bland–Ford theory with Hitchcock roll flattening, mill stretch and work hardening, then pulls the plate through the gap at its own entry and exit speeds. It outputs roll force, torque, power, forward slip, the new thickness and the full pressure curve along the arc.",
+            "Industrial mill twins split the work the same way: multibody physics for the handling, a reduced-order model for the pass. The predictions are not yet calibrated against the real mill. Expected uncertainty is ±10–20 %."
+          ],
+          "image": "assets/img/cold-rolling-digital-twin/results.jpg",
+          "caption": "The validated three-pass schedule: (a) the friction hill along the arc of contact, (b) roll force and pressure per pass, (c) the pressure painted on each sheet, (d) roll force over the full schedule, with robot and mill activity.",
+          "layout": "wide"
+        },
+        {
+          "heading": "Two robots, one direction",
+          "body": [
+            "The lab's mill cannot be reached into or over. An offline search covered <strong>968</strong> single-robot placements beside the mill, with all eight arm configurations, and found no collision-free cycle that lets the sheet leave on the exit side. In the best case the upper arm still passed 4 mm into the handwheel rim.",
+            "So the cell uses two UR10e arms with Robotiq 2F-140 grippers. Robot A loads the plate and the mill rolls it. Robot B picks up the sheet at the exit and holds it up in front of the machine. Robot A takes the other end and turns it end for end on the way back to the entry table. The sheet only ever moves one way through the rolls.",
+            "Both arms stay at least 44 mm from the machine. One handling cycle takes about 60 s, and the full schedule runs in <strong>183 s</strong> of simulated time with no collisions. Among the fixes: compliant, rubber-like pad contact cut how far a held sheet turned in the fingers from up to 17° to under 4°, and the sheet's collision body grows in 10 mm slices as the sheet lengthens."
+          ],
+          "image": "assets/img/cold-rolling-digital-twin/robots.jpg",
+          "caption": "The handover happens on the mill's drive side. Robot A stands on the left, robot B on the right."
+        },
+        {
+          "heading": "The metal keeps a record",
+          "body": [
+            "Each point on the sheet is painted with the peak pressure it felt in its last pass. The map moves with the metal along the exit table, through the handover and into the next pass.",
+            "The paint makes work hardening visible. As the plate goes from 6.0 to 3.6 mm, peak pressure climbs from <strong>191</strong> to <strong>224</strong> to <strong>246 MPa</strong>, while roll force stays between 73.5 and 82.0 kN. The free head and tail stay 12–16 % lower.",
+            "A board above the mill shows the same live gap map, magnified about 80 times."
+          ],
+          "image": "assets/img/cold-rolling-digital-twin/sheet.jpg",
+          "caption": "After pass 1, the rolled sheet waits at the exit end stop for robot B, painted with the pressure it felt."
+        },
+        {
+          "heading": "Live in a browser",
+          "body": [
+            "A web dashboard streams the real RTX render alongside every live quantity: thickness, roll force against capacity, pressure, torque, power, slip, temperature rise, the friction hill and the roll-bite geometry to scale. It has the same controls as the twin's own window and logs every pass to CSV and JSON.",
+            "The earlier one-robot version adds touchless control. In-browser MediaPipe hand tracking turns a webcam into a pointer: point to aim, pinch to click. The webcam image never leaves the browser.",
+            "Next comes the real mill: roll the same schedule, compare force, thickness and length, then calibrate friction and flow stress."
+          ],
+          "image": "assets/img/cold-rolling-digital-twin/dashboard.jpg",
+          "caption": "The dashboard during pass 1, over the live render. Controls sit on the left, gap pressure, friction hill and roll-bite geometry on the right, and live traces below.",
+          "layout": "wide"
+        }
+      ],
+      "gallery": [
+        {
+          "image": "assets/img/cold-rolling-digital-twin/load.jpg",
+          "caption": "Robot A sets the plate on the powered entry table."
+        },
+        {
+          "image": "assets/img/cold-rolling-digital-twin/operator.jpg",
+          "caption": "Real view of the mill's operator side. The yellow chock hides the roll bite, so the live gap map reads best in the white view and on the board."
+        }
+      ],
+      "links": []
+    },
+    {
+      "slug": "yosemite-digital-twin",
+      "title": "Yosemite National Park Digital Twin",
+      "short": "Yosemite twin",
+      "tagline": "Yosemite in 3D, rebuilt from 6.87 billion laser points, with live weather, hazard maps and an AI guide.",
+      "theme": "Digital twins",
+      "status": "ongoing",
+      "year": 2026,
+      "period": "Oct 2026 – present",
+      "weight": 1.25,
+      "scene": "terrain",
+      "terrain": "assets/img/yosemite-digital-twin/terrain.json",
+      "cover": "assets/img/yosemite-digital-twin/cover.jpg",
+      "heroImage": "assets/img/yosemite-digital-twin/hero.jpg",
+      "tags": [
+        "USGS 3DEP LiDAR",
+        "Screened Poisson",
+        "Open3D",
+        "Three.js",
+        "LOD streaming",
+        "Tree detection",
+        "Wildfire simulation",
+        "Claude API"
+      ],
+      "summary": "A 3D digital twin of Yosemite that runs in a web browser. <strong>202 km²</strong> are rebuilt from the USGS 2019 airborne LiDAR survey, and another 734 km² of USGS elevation data and aerial photos surround them. Visitors can follow live weather, open hazard maps, run a wildfire simulator, or ask an AI guide about the park.",
+      "stats": [
+        {
+          "value": "6.87 B",
+          "label": "LiDAR points, USGS survey flown Oct 2019"
+        },
+        {
+          "value": "682 M",
+          "label": "Triangles in the full-resolution meshes"
+        },
+        {
+          "value": "1.4 M",
+          "label": "Trees detected, 5 m and taller"
+        },
+        {
+          "value": "936 km²",
+          "label": "Modeled: 202 km² in full 3D, 734 km² from USGS elevation"
+        }
+      ],
+      "sections": [
+        {
+          "heading": "Billions of points, one surface",
+          "body": [
+            "In October 2019, the USGS 3DEP program flew an airborne LiDAR survey over Yosemite. The twin starts from that raw data: <strong>202</strong> one-kilometre tiles and <strong>6,867,935,812</strong> laser points.",
+            "Each tile is cleaned, thinned and rebuilt as a continuous surface with Screened Poisson reconstruction in Open3D. Cliff points that were labeled as vegetation but behave like rock are relabeled as rock. A 25 m strip of points from the neighbouring tiles lets each tile meet the next without a seam.",
+            "The full-resolution meshes hold <strong>682 million</strong> triangles, which is too many for a browser. So each tile streams in three levels of detail: a 3D mesh of about 400,000 triangles up close, then a 5 m grid and a 20 m grid farther away."
+          ],
+          "image": "assets/img/yosemite-digital-twin/high-country.jpg",
+          "caption": "The Cathedral Range high country, looking northeast toward Tuolumne Meadows. Screenshot from the running twin."
+        },
+        {
+          "heading": "Filling in the valley",
+          "body": [
+            "The LiDAR tiles cover two areas: the north rim at the east end of Yosemite Valley, and the Tuolumne Meadows high country. Around and between them, another <strong>734 km²</strong> comes from USGS 3DEP elevation data, almost all of it the 1 m model made from the same 2019 survey.",
+            "Every square kilometre is draped with the August 2022 NAIP aerial photo. On steep walls the color switches to granite tones, set by laser brightness in the LiDAR tiles.",
+            "Together the two cover everything from El Capitan and Half Dome to Clouds Rest and Tenaya Lake: <strong>936 km²</strong> in one model."
+          ],
+          "image": "assets/img/yosemite-digital-twin/valley.jpg",
+          "caption": "El Capitan and Yosemite Valley, looking east toward Half Dome."
+        },
+        {
+          "heading": "Every tree, counted",
+          "body": [
+            "The trees come straight from the laser data. A 1 m map of canopy height marks every local high point 5 m or taller as a tree top. The twin holds more than <strong>1.4 million</strong> trees, and the tallest detected so far measures <strong>69.9 m</strong>.",
+            "Each tree is drawn at its measured height and colored from the aerial photo. The LiDAR does not record species, so they are inferred from the LANDFIRE vegetation map, the elevation and the tree's height.",
+            "A background job is now adding trees to the fill area from the same 2019 survey, one tile at a time."
+          ],
+          "image": "assets/img/yosemite-digital-twin/trees.jpg",
+          "caption": "Trees detected in the LiDAR near North Dome, with Half Dome behind."
+        },
+        {
+          "heading": "Live data, simulated hazards",
+          "body": [
+            "The twin follows the real park. Weather for Yosemite Valley and Tuolumne Meadows updates every 10 minutes and drives haze, rain and snow in the view. The sun is where it really is in the sky. Snow on the ground comes from NOAA SNODAS, Sentinel-2 and California snow sensors.",
+            "Hazard layers map rockfall zones with the shadow-angle method, rate wildfire hazard, and mark open, level ground where a helicopter could land.",
+            "A wildfire simulator spreads fire across 30 m cells using Rothermel's model and the 40 Scott & Burgan fuel models, with crown fire and embers added. You can draw fire lines or drop retardant and compare the outcome. It is an educational model, not an operational forecast."
+          ],
+          "image": "assets/img/yosemite-digital-twin/wildfire.jpg",
+          "caption": "Wildfire simulator: an escaped campfire near Half Dome, 8 simulated hours after ignition.",
+          "layout": "wide"
+        },
+        {
+          "heading": "Ask, and it flies you there",
+          "body": [
+            "An AI guide built on the Claude API answers typed or spoken questions about the park. It replies aloud with captions, flies the camera to the place in question, and switches map layers or weather to show what it means.",
+            "It works from the twin's own data: landmarks, trails, points of interest, the current weather and what the visitor is looking at.",
+            "Visitors are offered a narrated flight over the park, about 90 seconds long, before they explore on their own."
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "image": "assets/img/yosemite-digital-twin/rockfall.jpg",
+          "caption": "Rockfall hazard over the east end of Yosemite Valley: cliffs steeper than 55° and the ground that falling blocks can reach."
+        }
+      ],
+      "links": []
+    },
+    {
+      "slug": "phytoplankton",
+      "title": "Phytoplankton",
+      "short": "Phytoplankton",
+      "tagline": "Microscopic plankton rebuilt from rules: a diatom generator, a Grasshopper plugin, and a swarm you can reach into.",
+      "theme": "Generative art",
+      "status": "ongoing",
+      "year": 2026,
+      "period": "Apr – Oct 2026",
+      "role": "Master's research, Texas A&M Visualization",
+      "weight": 1.15,
+      "scene": "plankton",
+      "cover": "assets/img/phytoplankton/cover.jpg",
+      "heroImage": "assets/img/phytoplankton/swarm.jpg",
+      "tags": [
+        "Procedural modeling",
+        "Diatom morphology",
+        "Three.js / WebGL",
+        "Grasshopper / Rhino",
+        "MediaPipe hand tracking",
+        "Interactive installation",
+        "AI-assisted tool-making"
+      ],
+      "summary": "Diatoms are microscopic algae that live inside shells of glass. This project rebuilds those shells from rules, not hand-made meshes. The browser studio has <strong>four body plans, controls named after real anatomy, and a seed that makes every form repeatable</strong>; a Grasshopper plugin sorts plankton into three geometric families; and an installation lets you pinch a plankton out of a drifting swarm.",
+      "stats": [
+        {
+          "value": "4",
+          "label": "body plans: centric, pennate, spined, chain"
+        },
+        {
+          "value": "8",
+          "label": "species presets, from Coscinodiscus to Triceratium"
+        },
+        {
+          "value": "20",
+          "label": "species in the interactive swarm"
+        },
+        {
+          "value": "320",
+          "label": "plankton in the swarm at default settings"
+        }
+      ],
+      "sections": [
+        {
+          "heading": "Shape by anatomy, not by vertex",
+          "body": [
+            "Procedural Diatom Studio runs in the browser on Three.js and WebGL. You don't push vertices. You set a <em>radial rib</em> count, a <em>central annulus</em>, a <em>striae density</em> or a <em>raphe groove</em>, and the shell is rebuilt.",
+            "Four generators cover the main body plans: <strong>centric</strong> discs, elongated <strong>pennate</strong> forms, <strong>spined</strong> forms with horns and setae, and <strong>chain</strong> colonies. Eight species presets are starting points, not taxonomic claims.",
+            "Every form comes from a seed, so any specimen can be regenerated, documented and revisited."
+          ],
+          "image": "assets/img/phytoplankton/studio-coscinodiscus.jpg",
+          "caption": "The Coscinodiscus preset: 44 radial ribs, concentric rings and a beaded rim, rendered in the studio."
+        },
+        {
+          "heading": "Four body plans, side by side",
+          "body": [
+            "Compare mode lines the four families up as a visual taxonomy. Gallery mode grows a field of variations from the same settings.",
+            "The studio exports PNG images, 3D files in <strong>GLB, glTF, OBJ and STL</strong>, and the full parameter set as JSON. It makes the form. Other tools take it from there for rendering, animation or fabrication. Exported specimens already sit in a KeyShot scene."
+          ]
+        },
+        {
+          "heading": "Wanderer: the same logic in Grasshopper",
+          "body": [
+            "Wanderer is a plugin for Grasshopper in Rhino. It sorts plankton by geometric family, not by species: <strong>radial</strong>, <strong>bilateral</strong> and <strong>chain-like</strong>. You tune its parameters by hand to match a microscope sample.",
+            "The radial and chain generators already produce watertight meshes. The bilateral module is still being refined to handle tapering and axial bending, and a zooplankton module for segmented bodies such as copepods is in development.",
+            "The paper frames Wanderer as a path toward verifiable 3D taxonomic databases. Next come the finished bilateral module and simulation-based behaviours."
+          ]
+        },
+        {
+          "heading": "Reach into the swarm",
+          "body": [
+            "<em>Phytoplankton — Swarm</em> is an interactive installation. Hundreds of plankton drift across the screen as clouds of light. A webcam and MediaPipe hand tracking follow up to four hands at once.",
+            "Raise a hand and move closer. Pinch a plankton and it comes forward for a closer look: species, size, habitat, one short fact, and the parameters of that individual.",
+            "Twenty species share the water, from the spider-web disc of <em>Arachnoidiscus</em> to <em>Karenia brevis</em>, which causes red tides on the Texas and Florida coasts."
+          ],
+          "image": "assets/img/phytoplankton/swarm.jpg",
+          "caption": "The idle swarm, captured without a camera. Each label tracks one plankton's position in 3D.",
+          "layout": "wide"
+        },
+        {
+          "heading": "Tool-making as method",
+          "body": [
+            "The studio is also a study in AI-assisted tool-making. It was built in VS Code with Codex as a coding partner. Describe a need, such as a chain-forming diatom with spines, setae and adjustable curvature, then build the generator, controls and export around it.",
+            "The point is <strong>building the tool, not only the image</strong>. The controls are named after the forms under study, so the software fits the research question, not the other way round.",
+            "It is biologically inspired, not exact. It does not simulate growth, buoyancy or how silica actually forms, and its micrometre readout is a visual reference, not a calibrated measurement."
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "image": "assets/img/phytoplankton/closeup.jpg",
+          "caption": "Pinch to look closer: Arachnoidiscus ehrenbergii, with its size, habitat and the parameters of this individual."
+        },
+        {
+          "image": "assets/img/phytoplankton/species.jpg",
+          "caption": "The installation's gallery view: all twenty species at once."
+        }
+      ],
+      "links": [],
+      "models": [
+        "assets/img/phytoplankton/diatom-1.glb",
+        "assets/img/phytoplankton/diatom-2.glb",
+        "assets/img/phytoplankton/diatom-3.glb"
+      ]
+    }
+  ],
+  "publications": [
+    {
+      "title": "Real-Time Pressure Heat-Map Visualization in a Digital Twin of a Cold-Rolling Mill",
+      "authors": "Amir Hossein Khazaei, Jian Tao",
+      "venue": "Texas A&M University System Artificial Intelligence Research & Innovation Meeting (Faculty AI Research Discovery Gallery), College Station, 5–6 October 2026",
+      "year": 2026,
+      "kind": "poster",
+      "status": "presented",
+      "project": "cold-rolling-digital-twin",
+      "image": "assets/img/cold-rolling-digital-twin/poster.jpg"
+    }
+  ]
+}
