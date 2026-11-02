@@ -31,6 +31,16 @@ loadSite().then(async (site) => {
 
   const sections = (p.sections || []).map((s, i) => {
     const hasMedia = s.image || s.video;
+    if (s.embed) {
+      // a live piece of work, loaded only when the visitor asks for it
+      return `<section class="wide-figure reveal"><div class="wrap">
+        <div class="prose" style="max-width:70ch;margin-bottom:28px">${s.heading ? `<h2 class="h2" style="font-size:clamp(28px,3.4vw,40px)">${esc(s.heading)}</h2>` : ""}${prose(s.body)}</div>
+        <div class="embed" data-src="${esc(asset(s.embed))}">
+          ${s.poster ? `<img src="${esc(asset(s.poster))}" alt="" loading="lazy">` : ""}
+          <button class="btn fill" type="button">Run it here</button>
+        </div>
+      </div></section>`;
+    }
     if (s.layout === "wide" && hasMedia) {
       return `<section class="wide-figure reveal"><div class="wrap">${s.heading ? `<div class="prose" style="max-width:70ch;margin-bottom:28px"><h2 class="h2" style="font-size:clamp(28px,3.4vw,40px)">${esc(s.heading)}</h2>${prose(s.body)}</div>` : ""}${media(s)}</div></section>`;
     }
@@ -76,6 +86,17 @@ loadSite().then(async (site) => {
   document.title = `${p.title} · Amir Khazaei`;
   footer(site);
   reveal();
+
+  app.querySelectorAll(".embed").forEach((box) => {
+    box.querySelector("button").addEventListener("click", () => {
+      const frame = document.createElement("iframe");
+      frame.src = box.dataset.src;
+      frame.title = p.title;
+      frame.allow = "camera; fullscreen; autoplay";
+      box.replaceChildren(frame);
+      box.classList.add("live");
+    });
+  });
 
   if (p.scene) {
     try {

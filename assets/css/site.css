@@ -225,6 +225,11 @@ p a:hover, .prose a:hover { text-decoration: underline; }
 .figure figcaption { margin-top: 12px; font-size: 13.5px; color: var(--text-3); line-height: 1.5; }
 .wide-figure { padding: 88px 0 0; }
 
+.embed { position: relative; aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden; background: #050505; border: 1px solid var(--line); }
+.embed img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.55); }
+.embed .btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
 .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .gallery .figure:only-child { grid-column: 1 / -1; }
 

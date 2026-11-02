@@ -300,108 +300,110 @@
       "links": []
     },
     {
-      "slug": "phytoplankton",
-      "title": "Phytoplankton",
+      "slug": "phytoplankton-swarm",
+      "title": "Phytoplankton — Swarm",
       "short": "Phytoplankton",
-      "tagline": "Microscopic plankton rebuilt from rules: a diatom generator, a Grasshopper plugin, and a swarm you can reach into.",
-      "theme": "Generative art",
+      "tagline": "An interactive installation: hundreds of luminous plankton that come apart in your hands, and a pinch that brings one up close.",
+      "theme": "Interactive systems",
       "status": "ongoing",
       "year": 2026,
-      "period": "Apr – Oct 2026",
-      "role": "Master's research, Texas A&M Visualization",
+      "period": "Oct 2026",
       "weight": 1.15,
       "scene": "plankton",
-      "cover": "assets/img/phytoplankton/cover.jpg",
-      "heroImage": "assets/img/phytoplankton/swarm.jpg",
+      "cover": "assets/img/phytoplankton-swarm/cover.jpg",
+      "heroImage": "assets/img/phytoplankton-swarm/swarm.jpg",
       "tags": [
-        "Procedural modeling",
-        "Diatom morphology",
-        "Three.js / WebGL",
-        "Grasshopper / Rhino",
+        "WebGL2",
+        "Three.js",
+        "GPU particles",
         "MediaPipe hand tracking",
-        "Interactive installation",
-        "AI-assisted tool-making"
+        "Procedural morphology",
+        "Generative sound",
+        "Installation"
       ],
-      "summary": "Diatoms are microscopic algae that live inside shells of glass. This project rebuilds those shells from rules, not hand-made meshes. The browser studio has <strong>four body plans, controls named after real anatomy, and a seed that makes every form repeatable</strong>; a Grasshopper plugin sorts plankton into three geometric families; and an installation lets you pinch a plankton out of a drifting swarm.",
+      "summary": "Hundreds of phytoplankton drift through a volume of dark water, each drawn from thousands of points of light. Raise a hand toward the camera and the plankton nearest it <strong>unravel into flowing pigment</strong>; the closer the hand, the wider and deeper the dissolve. <strong>Pinch one</strong> and the camera glides in to tell its story.",
       "stats": [
         {
-          "value": "4",
-          "label": "body plans: centric, pennate, spined, chain"
+          "value": "320",
+          "label": "plankton in the water by default, up to 600"
         },
         {
-          "value": "8",
-          "label": "species presets, from Coscinodiscus to Triceratium"
+          "value": "1.3 M",
+          "label": "particles simulated on the GPU every frame"
         },
         {
           "value": "20",
-          "label": "species in the interactive swarm"
+          "label": "species, each grown in 4 procedural variants"
         },
         {
-          "value": "320",
-          "label": "plankton in the swarm at default settings"
+          "value": "4",
+          "label": "hands tracked at once from a single webcam"
         }
       ],
       "sections": [
         {
-          "heading": "Shape by anatomy, not by vertex",
+          "heading": "Reach into the water",
           "body": [
-            "Procedural Diatom Studio runs in the browser on Three.js and WebGL. You don't push vertices. You set a <em>radial rib</em> count, a <em>central annulus</em>, a <em>striae density</em> or a <em>raphe groove</em>, and the shell is rebuilt.",
-            "Four generators cover the main body plans: <strong>centric</strong> discs, elongated <strong>pennate</strong> forms, <strong>spined</strong> forms with horns and setae, and <strong>chain</strong> colonies. Eight species presets are starting points, not taxonomic claims.",
-            "Every form comes from a seed, so any specimen can be regenerated, documented and revisited."
+            "The piece watches visitors through a webcam. MediaPipe hand tracking finds up to four hands, and the size of each palm in the frame tells how close it is to the wall.",
+            "As a hand approaches, the plankton nearest it come apart in organic patches, from the outside in, and drift away as coloured pigment. Pull back and the particles find their way home. A plankton that dissolved completely re-forms as <strong>a different species</strong>, always the one the swarm has least of, so the crowd stays diverse."
           ],
-          "image": "assets/img/phytoplankton/studio-coscinodiscus.jpg",
-          "caption": "The Coscinodiscus preset: 44 radial ribs, concentric rings and a beaded rim, rendered in the studio."
+          "image": "assets/img/phytoplankton-swarm/swarm.jpg",
+          "caption": "The swarm at rest. A live X / Y / Z readout floats beside every plankton as it wanders."
         },
         {
-          "heading": "Four body plans, side by side",
+          "heading": "Pinch to look closer",
           "body": [
-            "Compare mode lines the four families up as a visual taxonomy. Gallery mode grows a field of variations from the same settings.",
-            "The studio exports PNG images, 3D files in <strong>GLB, glTF, OBJ and STL</strong>, and the full parameter set as JSON. It makes the form. Other tools take it from there for rendering, animation or fabrication. Exported specimens already sit in a KeyShot scene."
-          ]
-        },
-        {
-          "heading": "Wanderer: the same logic in Grasshopper",
-          "body": [
-            "Wanderer is a plugin for Grasshopper in Rhino. It sorts plankton by geometric family, not by species: <strong>radial</strong>, <strong>bilateral</strong> and <strong>chain-like</strong>. You tune its parameters by hand to match a microscope sample.",
-            "The radial and chain generators already produce watertight meshes. The bilateral module is still being refined to handle tapering and axial bending, and a zooplankton module for segmented bodies such as copepods is in development.",
-            "The paper frames Wanderer as a path toward verifiable 3D taxonomic databases. Next come the finished bilateral module and simulation-based behaviours."
-          ]
-        },
-        {
-          "heading": "Reach into the swarm",
-          "body": [
-            "<em>Phytoplankton — Swarm</em> is an interactive installation. Hundreds of plankton drift across the screen as clouds of light. A webcam and MediaPipe hand tracking follow up to four hands at once.",
-            "Raise a hand and move closer. Pinch a plankton and it comes forward for a closer look: species, size, habitat, one short fact, and the parameters of that individual.",
-            "Twenty species share the water, from the spider-web disc of <em>Arachnoidiscus</em> to <em>Karenia brevis</em>, which causes red tides on the Texas and Florida coasts."
+            "Point at a plankton and touch thumb to index finger. A ring fills while the pinch is held; after half a second the camera glides in until the plankton fills much of the screen, and the rest of the swarm sinks into dark bokeh.",
+            "Up close, the same individual is redrawn from <strong>65,536 points</strong> instead of 4,096, grown from the same seed so its cell counts and spines match. A panel gives its name, classification, size, habitat, a short description and a fact, along with its live position and the parameters it was grown from.",
+            "With no camera, a mouse or touchscreen does the same: click to look closer, press and hold to dissolve."
           ],
-          "image": "assets/img/phytoplankton/swarm.jpg",
-          "caption": "The idle swarm, captured without a camera. Each label tracks one plankton's position in 3D.",
+          "image": "assets/img/phytoplankton-swarm/closeup.jpg",
+          "caption": "Close-up of Arachnoidiscus ehrenbergii, the 'spider-like disc', with its information panel.",
           "layout": "wide"
         },
         {
-          "heading": "Tool-making as method",
+          "heading": "Light, not meshes",
           "body": [
-            "The studio is also a study in AI-assisted tool-making. It was built in VS Code with Codex as a coding partner. Describe a need, such as a chain-forming diatom with spines, setae and adjustable curvature, then build the generator, controls and export around it.",
-            "The point is <strong>building the tool, not only the image</strong>. The controls are named after the forms under study, so the software fits the research question, not the other way round.",
-            "It is biologically inspired, not exact. It does not simulate growth, buoyancy or how silica actually forms, and its micrometre readout is a visual reference, not a calibrated measurement."
+            "Every plankton is a point cloud with a material per point: silica, rim or chloroplast. The look borrows from dark-field and fluorescence microscopy, where glass seen edge-on glows and chloroplasts carry their own colour.",
+            "Twenty species are generated procedurally, from diatoms such as <em>Coscinodiscus</em>, <em>Chaetoceros</em> and <em>Asterionella</em> to dinoflagellates such as the bioluminescent <em>Pyrocystis</em> and the red-tide alga <em>Karenia brevis</em>, coccolithophores, and colonies such as <em>Volvox</em>.",
+            "All 80 individuals live in one GPU texture, so changing a plankton's species is a single write while its particles are airborne. The new form simply condenses out of the cloud."
+          ],
+          "image": "assets/img/phytoplankton-swarm/species.jpg",
+          "caption": "Gallery view: one of every species in the library."
+        },
+        {
+          "heading": "The water sounds",
+          "body": [
+            "Soft glassy voices swell as a hand nears the plankton, pitched by species and placed where each one is. Dissolving plankton fizz with bubbles, and re-forming ones ring like glass, over a quiet underwater drone.",
+            "Everything is synthesised live in the browser. There are no audio files."
+          ]
+        },
+        {
+          "heading": "Built for a gallery wall",
+          "body": [
+            "The installation runs entirely in the browser on WebGL2 and works offline once set up. A launcher rebuilds it, serves it locally and opens Chrome full-screen in kiosk mode with the camera pre-approved.",
+            "It is made to run unattended. If the camera is unplugged it restarts and falls back to another camera; if the hand tracker fails it is rebuilt; if the GPU driver resets the page reloads. Hand detection runs on a background thread, and quality steps down by itself on slower machines."
+          ]
+        },
+        {
+          "heading": "Try it here",
+          "embed": "installations/phytoplankton-swarm/?nocamera&mute",
+          "poster": "assets/img/phytoplankton-swarm/swarm.jpg",
+          "body": [
+            "Run the installation in this page with your mouse: click a plankton to look closer, press and hold to dissolve. For hand tracking, open the full installation and allow the camera."
           ]
         }
       ],
-      "gallery": [
+      "gallery": [],
+      "links": [
         {
-          "image": "assets/img/phytoplankton/closeup.jpg",
-          "caption": "Pinch to look closer: Arachnoidiscus ehrenbergii, with its size, habitat and the parameters of this individual."
+          "label": "Launch the installation",
+          "url": "installations/phytoplankton-swarm/"
         },
         {
-          "image": "assets/img/phytoplankton/species.jpg",
-          "caption": "The installation's gallery view: all twenty species at once."
+          "label": "Mouse-only version",
+          "url": "installations/phytoplankton-swarm/?nocamera"
         }
-      ],
-      "links": [],
-      "models": [
-        "assets/img/phytoplankton/diatom-1.glb",
-        "assets/img/phytoplankton/diatom-2.glb",
-        "assets/img/phytoplankton/diatom-3.glb"
       ]
     }
   ],
