@@ -105,6 +105,7 @@ function buildAtlas(projects, onUpdate) {
   projects.forEach((p, i) => {
     if (!p.cover) return;
     const img = new Image();
+    img.crossOrigin = "anonymous";   // keeps the canvas usable by WebGL when images come from a CDN
     img.onload = () => {
       const s = Math.min(img.width, img.height);
       const sx = (img.width - s) / 2, sy = (img.height - s) / 2;
